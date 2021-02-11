@@ -1,8 +1,8 @@
-name, colours
-carrot, orange
-beans, green
-potato, yellow
-spinach, green
-brocolli, green
-capsicum, red
-beetroot, purple
+carrot
+beans
+potato
+spinach
+brocolli
+
+capsicum
+beetroot
