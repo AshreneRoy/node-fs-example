@@ -4,7 +4,7 @@
   "description": "Practice fs using a simple application",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "author": "",
   "license": "ISC",
