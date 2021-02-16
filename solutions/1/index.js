@@ -3,22 +3,24 @@ const fileOps = require('../utils/');
 
 const readAllFiles = async (dir, filterCharacter = '') => {
 
-    let filesInDir;
-    let fileContent = {};
+    let fileContentPromise;
 
     try {
-        filesInDir = await fileOps.listFiles(dir);
-        const promises = filesInDir.map(async (file) => {
+        const filesInDir = await fileOps.listFiles(dir);
+        fileContentPromise = filesInDir.reduce(async (acc, file) => {
+            let fileContent = await acc;
             let content = await fileOps.readFile(dir + '/' + file);
-            fileContent[fileNameFormatter(file)] = dataFormatter(content, filterCharacter);
-            return content;
-        });
-        await Promise.all(promises);
+            acc = { 
+                ...fileContent,
+                [fileNameFormatter(file)]: dataFormatter(content, filterCharacter)
+            };
+            return acc;
+        }, {});
     } catch(err) {
         throw new Error('Unable to perform file operation. ' + err);
     }
 
-    return fileContent;
+    return fileContentPromise;
 }
 
 const dataFormatter = (string, filterCharacter) => {
