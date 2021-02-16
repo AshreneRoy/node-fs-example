@@ -1,5 +1,5 @@
-const path = require('path');
-const fileOps = require('../utils/');
+const fileOps = require('../utils/fileOps');
+const formatter = require('../utils/formatter');
 
 const readAllFiles = async (dir, filterCharacter = '') => {
 
@@ -12,7 +12,7 @@ const readAllFiles = async (dir, filterCharacter = '') => {
             let content = await fileOps.readFile(dir + '/' + file);
             acc = { 
                 ...fileContent,
-                [fileNameFormatter(file)]: dataFormatter(content, filterCharacter)
+                [formatter.fileNameFormatter(file)]: formatter.dataFormatter(content, filterCharacter)
             };
             return acc;
         }, {});
@@ -21,17 +21,6 @@ const readAllFiles = async (dir, filterCharacter = '') => {
     }
 
     return fileContentPromise;
-}
-
-const dataFormatter = (string, filterCharacter) => {
-    const formattedData = string.split('\n');
-    return formattedData.filter((value) => {
-        return value !== '' && value.startsWith(filterCharacter) ? true : false;
-    });
-}
-
-const fileNameFormatter = (fileName) => {
-    return path.parse(fileName).name;
 }
 
 // readAllFiles('./seed').then(console.log);
